@@ -1,0 +1,12 @@
+Flask
+Flask-CORS
+requests
+python-dotenv
+langgraph
+langchain
+langchain-openai
+geopy
+folium
+pandas
+numpy
+schedule

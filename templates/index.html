@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zurich Women Safety App</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1>🛰️ NASA Safe Navigation - Zurich</h1>
+                <p class="app-subtitle">Satellite-powered gender-aware urban navigation for safer journeys home</p>
+                <div class="header-actions">
+                    <button id="emergency-btn" class="emergency-btn">🚨 Emergency</button>
+                    <button id="location-btn" class="location-btn">📍 My Location</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Map Section -->
+            <section class="map-section">
+                <div id="map" class="map-container"></div>
+                <div class="map-controls">
+                    <div class="safety-indicator">
+                        <div id="safety-score" class="safety-score">
+                            <span class="score-value">--</span>
+                            <span class="score-label">Safe Navigation Score</span>
+                        </div>
+                        <div id="safety-level" class="safety-level">Click map to analyze</div>
+                    </div>
+                    <div class="navigation-controls">
+                        <button id="route-planner-btn" class="control-btn">🗺️ Safe Route Home</button>
+                        <button id="safety-layer-btn" class="control-btn">🌙 Night Mode</button>
+                    </div>
+                </div>
+                <div class="safe-navigation-info">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-icon">💡</span>
+                            <span class="info-text">Street Lighting</span>
+                            <span id="lighting-indicator" class="indicator">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">👥</span>
+                            <span class="info-text">Pedestrian Flow</span>
+                            <span id="flow-indicator" class="indicator">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🚔</span>
+                            <span class="info-text">Emergency Proximity</span>
+                            <span id="emergency-indicator" class="indicator">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">👁️</span>
+                            <span class="info-text">Visibility</span>
+                            <span id="visibility-indicator" class="indicator">--</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chat Panel -->
+            <section class="chat-section">
+                <div class="chat-header">
+                    <h3>💬 Chat with Authorities</h3>
+                    <button id="chat-toggle" class="chat-toggle">−</button>
+                </div>
+                <div id="chat-container" class="chat-container">
+                    <div id="chat-messages" class="chat-messages">
+                        <div class="system-message">
+                            <p>🛰️ Welcome to NASA Safe Navigation Zurich! I'm your satellite-powered AI safety assistant, designed with women's urban safety research and space technology.</p>
+                            <p><strong>🚀 Mission Control - I can help you with:</strong></p>
+                            <ul>
+                                <li>🛰️ Satellite-powered safe route planning prioritizing well-lit streets</li>
+                                <li>🌙 Night-time safety assessments using NASA imagery</li>
+                                <li>🚔 Emergency assistance and police contact</li>
+                                <li>📡 Real-time satellite safety analysis of any area</li>
+                                <li>🚇 Transport safety information</li>
+                                <li>📱 Incident reporting to authorities</li>
+                            </ul>
+                            <p><em>🌍 Powered by NASA satellite technology & research from "Invisible Women" by Caroline Criado Perez</em></p>
+                        </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <input type="text" id="chat-input" placeholder="Type your message..." />
+                        <button id="send-btn">Send</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Route Planning Modal -->
+        <div id="route-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>🗺️ Plan Safe Route</h3>
+                    <button class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="route-inputs">
+                        <div class="input-group">
+                            <label>From:</label>
+                            <input type="text" id="route-from" placeholder="Enter starting location" />
+                        </div>
+                        <div class="input-group">
+                            <label>To:</label>
+                            <input type="text" id="route-to" placeholder="Enter destination" />
+                        </div>
+                        <button id="calculate-route" class="primary-btn">Calculate Safe Routes</button>
+                    </div>
+                    <div id="route-results" class="route-results"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emergency Modal -->
+        <div id="emergency-modal" class="modal">
+            <div class="modal-content emergency-modal">
+                <div class="modal-header emergency-header">
+                    <h3>🚨 Emergency Alert</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Are you in immediate danger?</p>
+                    <div class="emergency-actions">
+                        <button id="call-police" class="emergency-action">📞 Call Police (117)</button>
+                        <button id="call-emergency" class="emergency-action">🚑 Call Emergency (112)</button>
+                        <button id="send-alert" class="emergency-action">📡 Send Alert to Authorities</button>
+                        <button id="share-location" class="emergency-action">📍 Share My Location</button>
+                    </div>
+                    <div class="emergency-info">
+                        <p><strong>Your location will be shared with emergency services</strong></p>
+                        <button class="close-btn">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loading" class="loading-overlay">
+            <div class="loading-spinner"></div>
+            <p>Analyzing safety data...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
