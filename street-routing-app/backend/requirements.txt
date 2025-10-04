@@ -1,0 +1,7 @@
+fastapi==0.115.2
+uvicorn[standard]==0.30.6
+osmnx==1.9.4
+networkx==3.2.1
+shapely==2.0.5
+pydantic==2.9.2
+scikit-learn==1.5.2

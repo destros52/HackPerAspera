@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Street Router</title>
+<link crossorigin="" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" rel="stylesheet"/>
+<style>
+    /* === Neo‑Skeuomorphism (gray–beige) === */
+    :root{
+      --neo-bg: #eae5dc;         /* warm gray‑beige canvas */
+      --neo-surface: #f4efe8;    /* raised surfaces */
+      --neo-deep: #d9d3c8;       /* shadow tone */
+      --neo-light: #ffffff;      /* highlight */
+      --neo-accent: #8a7f6f;     /* neutral text/accent */
+      --neo-accent-strong:#5a5145;
+      --neo-primary:#7c6f5f;     /* buttons */
+      --neo-primary-emboss:#9a8e7c;
+    }
+    html, body { height:100%; margin:0; background:var(--neo-bg); color:var(--neo-accent); }
+    #map { height: calc(100% - 140px); border-radius: 18px; margin: 10px 12px;
+      box-shadow:
+        10px 10px 22px var(--neo-deep),
+        -10px -10px 22px var(--neo-light);
+      overflow:hidden;
+    }
+    .toolbar {
+      display:flex; gap:12px; align-items:center; padding:14px 16px; flex-wrap:wrap;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      border:0; background:var(--neo-bg);
+      box-shadow:
+        inset 6px 6px 12px var(--neo-deep),
+        inset -6px -6px 12px var(--neo-light);
+      border-radius:18px; margin:12px;
+    }
+    .panel {
+      padding:14px 16px; margin:12px;
+      background:var(--neo-surface);
+      border-radius:18px;
+      box-shadow:
+        8px 8px 18px var(--neo-deep),
+        -8px -8px 18px var(--neo-light);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    }
+    .steps { font-size: 0.94rem; max-height: 160px; overflow:auto; margin-top:8px; }
+    .steps li { margin: 4px 0; }
+    .status { margin-left:auto; font-size:.92rem; color: var(--neo-accent-strong); opacity:.9; }
+
+    /* Inputs */
+    .in {
+      padding:10px 14px; border:0; border-radius:14px; background:var(--neo-surface);
+      box-shadow:
+        inset 6px 6px 12px var(--neo-deep),
+        inset -6px -6px 12px var(--neo-light);
+      color: var(--neo-accent-strong);
+      outline:none;
+    }
+    .in:focus{
+      box-shadow:
+        inset 4px 4px 10px var(--neo-deep),
+        inset -4px -4px 10px var(--neo-light),
+        0 0 0 2px rgba(122,112,96,.15);
+    }
+    .addr-group { display:flex; align-items:center; gap:8px; }
+
+    /* Pills / buttons */
+    .pill {
+      padding:10px 14px; border:0; border-radius:999px;
+      background: var(--neo-surface);
+      color: var(--neo-accent-strong);
+      cursor:pointer; user-select:none;
+      box-shadow:
+        6px 6px 12px var(--neo-deep),
+        -6px -6px 12px var(--neo-light);
+      transition: transform .06s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .pill:hover{ transform: translateY(-1px); }
+    .pill:active{
+      box-shadow:
+        inset 6px 6px 12px var(--neo-deep),
+        inset -6px -6px 12px var(--neo-light);
+      transform: translateY(0);
+    }
+    .pill.active{
+      background: var(--neo-primary-emboss);
+      color:#fff;
+      box-shadow:
+        inset 6px 6px 12px rgba(0,0,0,.18),
+        inset -6px -6px 12px rgba(255,255,255,.25);
+      font-weight:600;
+    }
+
+    /* Select (route preference) */
+    #routePref{
+      appearance:none; -webkit-appearance:none; -moz-appearance:none;
+      padding:10px 14px; border-radius:14px; border:0; background:var(--neo-surface);
+      box-shadow:
+        inset 6px 6px 12px var(--neo-deep),
+        inset -6px -6px 12px var(--neo-light);
+      color: var(--neo-accent-strong);
+    }
+
+    /* Checkboxes */
+    input[type="checkbox"]{
+      appearance:none; width:18px; height:18px; border-radius:8px;
+      margin-right:6px; position:relative; top:3px;
+      background: var(--neo-surface);
+      box-shadow:
+        inset 4px 4px 8px var(--neo-deep),
+        inset -4px -4px 8px var(--neo-light);
+      outline:none; cursor:pointer;
+    }
+    input[type="checkbox"]:checked{
+      background: var(--neo-primary);
+      box-shadow:
+        inset 4px 4px 8px rgba(0,0,0,.25),
+        inset -4px -4px 8px rgba(255,255,255,.2);
+    }
+
+    /* Floating action button */
+    .float-bottom-btn{
+      position:fixed; left:50%; bottom:16px; transform:translateX(-50%);
+      z-index:1000; padding:12px 18px; border:0; border-radius:999px; background:var(--neo-surface);
+      color: var(--neo-accent-strong);
+      box-shadow:
+        10px 10px 22px var(--neo-deep),
+        -10px -10px 22px var(--neo-light);
+      cursor:pointer; font-weight:600;
+    }
+    .float-bottom-btn.active{
+      background: var(--neo-primary); color:#fff;
+      box-shadow:
+        inset 8px 8px 16px rgba(0,0,0,.25),
+        inset -8px -8px 16px rgba(255,255,255,.2);
+    }
+    @media (max-width:700px){
+      #map { height: calc(100% - 180px); margin: 8px; border-radius:16px; }
+      .toolbar { margin:8px; border-radius:16px; }
+      .panel { margin:8px; border-radius:16px; }
+      .float-bottom-btn{ bottom:12px; padding:11px 16px; }
+    }
+</style>
+
+<style>
+  /* --- Mobile persistence & safe-area support --- */
+  @supports(padding: max(0px)) {
+    .emergency-bar{
+      padding-bottom: max(.65rem, env(safe-area-inset-bottom));
+    }
+    body{
+      padding-bottom: max(calc(80px + 1rem), calc(64px + 1.2rem) + env(safe-area-inset-bottom));
+    }
+  }
+  @media (max-width: 768px){
+    .emergency-bar{
+      position: fixed !important;
+      display: flex !important;
+      transform: translateZ(0); /* keep it pinned during scroll on iOS */
+    }
+    html, body{ height: 100%; }
+    /* Lift Leaflet controls so they're not hidden behind the bar */
+    .leaflet-bottom{
+      bottom: 88px; /* height of the bar + spacing */
+    }
+  }
+</style>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<style>
+  :root{
+    --em-bar-h: 72px;
+    --em-gap: 8px;
+  }
+
+  /* Prevent layout shift and accidental horizontal scroll */
+  html, body{ height: 100%; }
+  body{ overscroll-behavior-y: contain; margin: 0; }
+
+  .emergency-bar{
+    position: fixed; left: 0; right: 0; bottom: 0;
+    z-index: 10000;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--em-gap);
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(20,20,24,.82);
+    backdrop-filter: saturate(140%) blur(6px);
+    border-top: 1px solid rgba(255,255,255,.15);
+    box-sizing: border-box;
+  }
+  .emergency-btn{
+    min-width: 0; /* allow shrinking inside grid */
+    height: calc(var(--em-bar-h) - 22px); /* full bar minus vertical padding */
+    font-weight: 700;
+    letter-spacing: .2px;
+    padding: .9rem .8rem;
+    border: none; border-radius: 14px;
+    color: #fff; cursor: pointer; outline: none;
+    box-shadow:
+      inset 4px 4px 10px rgba(0,0,0,.35),
+      inset -4px -4px 12px rgba(255,255,255,.12),
+      0 6px 16px rgba(0,0,0,.35);
+    transition: transform .06s ease, box-shadow .2s ease;
+    text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
+  }
+  .emergency-btn:active{ transform: translateY(1px); }
+  .btn-sos{ background: linear-gradient(180deg, #ff3b3b 0%, #c91e1e 100%); }
+  .btn-alert{ background: linear-gradient(180deg, #ffb300 0%, #d98200 100%); }
+  .btn-comfort{ background: linear-gradient(180deg, #3b82f6 0%, #1e40af 100%); }
+
+  /* Reserve space so content/controls don't hide under the bar */
+  body{
+    padding-bottom: calc(var(--em-bar-h) + env(safe-area-inset-bottom) + 14px);
+  }
+  /* Lift Leaflet bottom controls */
+  .leaflet-bottom{
+    bottom: calc(var(--em-bar-h) + env(safe-area-inset-bottom) + 10px);
+  }
+
+  /* Compact tweaks for very narrow screens */
+  @media (max-width: 360px){
+    :root{ --em-bar-h: 64px; }
+    .emergency-btn{ font-size: .9rem; padding: .75rem .6rem; }
+  }
+  @media (orientation: landscape) and (max-height: 420px){
+    :root{ --em-bar-h: 58px; }
+    .emergency-btn{ font-size: .85rem; padding: .6rem .5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="toolbar">
+<div style="display:flex; gap:12px; align-items:center; flex-wrap: wrap;">
+<div class="addr-group">
+<input class="in" id="fromInput" list="fromList" placeholder="From (Zurich only): start typing…" style="min-width:280px"/>
+<datalist id="fromList"></datalist>
+<button class="pill" id="fromMap" title="Pick on map">Pick From</button>
+</div>
+<div class="addr-group">
+<input class="in" id="toInput" list="toList" placeholder="To (Zurich only): start typing…" style="min-width:280px"/>
+<datalist id="toList"></datalist>
+<button class="pill" id="toMap" title="Pick on map">Pick To</button>
+</div>
+
+<div class="seg" id="modeButtons">
+<button class="pill seg-btn active" data-mode="walk" title="Walk" type="button">Walk</button>
+<button class="pill seg-btn" data-mode="bike" title="Bike" type="button">Bike</button>
+<button class="pill seg-btn" data-mode="drive" title="Drive" type="button">Drive</button>
+</div>
+<input id="mode" type="hidden" value="walk"/>
+
+<select class="in" id="routePref">
+<option value="short">short</option>
+<option selected="selected" value="safe">safe</option>
+</select>
+<input aria-hidden="true" class="in" id="place" style="display:none" tabindex="-1" type="hidden"/>
+<input aria-hidden="true" checked="" id="force" style="display:none" tabindex="-1" type="checkbox"/>
+<button class="pill" id="route">Route</button>
+<label style="margin-left:8px;"><input id="lightingToggle" type="checkbox"/> Show lighting</label><label style="margin-left:8px;"><input id="pedToggle" type="checkbox"/> Show pedestrians</label>
+<input aria-hidden="true" disabled="" id="heatToggle" style="display:none" tabindex="-1" type="checkbox"/>
+<span class="status" id="status">Backend: <span id="ping">checking...</span></span>
+</div>
+</div>
+<div id="map"></div>
+<div class="panel">
+<div><strong>Distance:</strong> <span id="distance">—</span></div>
+<ol class="steps" id="steps"></ol>
+</div>
+<script crossorigin="" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+  <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js">
+    // ============== Heatmap (lighting-based) ==============
+    async function fetchHeat() {
+      const cb = document.getElementById('heatToggle');
+      if (!cb || !cb.checked) {
+        if (heatLayer) { map.removeLayer(heatLayer); heatLayer = null; }
+        return;
+      }
+      const b = map.getBounds();
+      const bbox = [b.getWest(), b.getSouth(), b.getEast(), b.getNorth()].join(',');
+      try {
+        const resp = await fetch(`${BACKEND}/lighting?bbox=${bbox}&limit=10000`);
+        if (!resp.ok) {
+          console.error('Heat fetch failed', await resp.text());
+          return;
+        }
+        const gj = await resp.json();
+        // Convert to [[lat, lon, intensity], ...]
+        const pts = [];
+        for (const f of gj.features || []) {
+          const g = f.geometry || {};
+          if (g.type === 'Point' && Array.isArray(g.coordinates)) {
+            const lon = g.coordinates[0], lat = g.coordinates[1];
+            const p = f.properties || {};
+            const bright = p.lumen || p.power || p.brightness || p.intensity || 1;
+            // normalize to a sane intensity range (0..1)
+            const w = Math.min(1, Math.log10(Math.max(1, Number(bright))) / 4 + 0.15);
+            pts.push([lat, lon, w]);
+          }
+        }
+        if (heatLayer) { map.removeLayer(heatLayer); heatLayer = null; }
+        if (pts.length) {
+          heatLayer = L.heatLayer(pts, {
+            radius: 22,    // px
+            blur: 18,
+            maxZoom: 18
+          }).addTo(map);
+        }
+      } catch (e) {
+        console.error('Heat error', e);
+      }
+    }
+
+    document.getElementById('heatToggle').addEventListener('change', fetchHeat);
+    map.on('moveend', () => { if (document.getElementById('heatToggle').checked) fetchHeat(); });
+    // ============ end heatmap ============
+
+    // Initial sync: keep Heatmap in the same state as Show lighting
+    (function(){
+      const lt = document.getElementById('lightingToggle');
+      const ht = document.getElementById('heatToggle');
+      if (lt && ht) { ht.disabled = true;
+        ht.checked = lt.checked;
+        if (lt.checked) { fetchHeat(); }
+      }
+    })();
+  </script>
+    // ============== Lighting overlay ==============
+    async function fetchLighting() {
+      if (!document.getElementById('lightingToggle').checked) {
+        if (lightingLayer) { map.removeLayer(lightingLayer); lightingLayer = null; }
+        return;
+      }
+      const b = map.getBounds();
+      const bbox = [b.getWest(), b.getSouth(), b.getEast(), b.getNorth()].join(',');
+      const url = `${BACKEND}/lighting?bbox=${bbox}&amp;limit=5000`;
+      const resp = await fetch(url);
+      if (!resp.ok) {
+        console.error('Lighting fetch failed', await resp.text());
+        return;
+      }
+      const gj = await resp.json();
+      if (lightingLayer) { map.removeLayer(lightingLayer); lightingLayer = null; }
+      lightingLayer = L.geoJSON(gj, {
+        pointToLayer: (feature, latlng) =&gt; {
+          const p = feature.properties || {};
+          const bright = p.lumen || p.power || p.brightness || p.intensity || 1;
+          const r = 2 + Math.min(8, Math.log10(Math.max(1, bright)) + 2);
+          return L.circleMarker(latlng, { radius: r, stroke: true, weight: 0.5, opacity: 0.9, color: '#FFC107', fillColor: '#FFD54F', fillOpacity: 0.35, bubblingMouseEvents: false });
+        },
+        style: (feature) =&gt; ({ weight: 2, opacity: 0.8 }),
+        onEachFeature: (feature, layer) =&gt; {
+          const props = feature.properties || {};
+          const rows = Object.entries(props).slice(0, 20).map(([k,v]) =&gt; `<tr><td>${k}</td><td>${v}</td></tr>`).join("");
+          layer.bindPopup(`<b>Street light</b><table>${rows}</table>`);
+        }
+      }).addTo(map);
+    }
+
+    document.getElementById('lightingToggle').addEventListener('change', (e) =&gt; {
+      const heatCb = document.getElementById('heatToggle');
+      if (heatCb) { heatCb.disabled = true;
+        heatCb.checked = e.target.checked;
+        fetchHeat();
+      }
+      fetchLighting();
+    });
+map.on('moveend', () =&gt; { if (document.getElementById('lightingToggle').checked) fetchLighting(); });
+
+    // ============ end lighting ============
+
+    // Auto-download Zurich lighting dataset on load (no prompt)
+    (async function autoDownloadLighting(){
+      try {
+        const url = encodeURIComponent('https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentliche_Beleuchtung_der_Stadt_Zuerich?service=WFS&amp;request=GetFeature&amp;version=2.0.0&amp;typeName=ewz_brennstelle_p&amp;outputFormat=application/json&amp;srsName=EPSG:4326');
+        const resp = await fetch(`${BACKEND}/lighting/download?url=${url}`);
+        if (!resp.ok) {
+          console.warn('Lighting default download failed:', await resp.text());
+        } else {
+          console.log('Lighting default loaded');
+          if (document.getElementById('lightingToggle').checked) {
+            await fetchLighting();
+            if (document.getElementById('heatToggle')) { await fetchHeat(); }
+          }
+        }
+      } catch (e) {
+        console.error('Auto download error', e);
+      }
+    })();
+
+
+    // Auto-download Zurich lighting dataset on load (no prompt)
+    (async function autoDownloadLighting(){
+      try {
+        const url = encodeURIComponent('https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Oeffentliche_Beleuchtung_der_Stadt_Zuerich?service=WFS&amp;request=GetFeature&amp;version=2.0.0&amp;typeName=ewz_brennstelle_p&amp;outputFormat=application/json&amp;srsName=EPSG:4326');
+        const resp = await fetch(`${BACKEND}/lighting/download?url=${url}`);
+        if (!resp.ok) {
+          console.warn('Lighting default download failed:', await resp.text());
+        } else {
+          console.log('Lighting default loaded');
+          if (document.getElementById('lightingToggle').checked) {
+            await fetchLighting();
+            if (document.getElementById('heatToggle')) { await fetchHeat(); }
+          }
+        }
+      } catch (e) {
+        console.error('Auto download error', e);
+      }
+    })();
+
+    
+  
+    // ============== Heatmap (lighting-based) ==============
+    async function fetchHeat() {
+      const cb = document.getElementById('heatToggle');
+      if (!cb || !cb.checked) {
+        if (heatLayer) { map.removeLayer(heatLayer); heatLayer = null; }
+        return;
+      }
+      const b = map.getBounds();
+      const bbox = [b.getWest(), b.getSouth(), b.getEast(), b.getNorth()].join(',');
+      try {
+        const resp = await fetch(`${BACKEND}/lighting?bbox=${bbox}&amp;limit=10000`);
+        if (!resp.ok) {
+          console.error('Heat fetch failed', await resp.text());
+          return;
+        }
+        const gj = await resp.json();
+        // Convert to [[lat, lon, intensity], ...]
+        const pts = [];
+        for (const f of gj.features || []) {
+          const g = f.geometry || {};
+          if (g.type === 'Point' &amp;&amp; Array.isArray(g.coordinates)) {
+            const lon = g.coordinates[0], lat = g.coordinates[1];
+            const p = f.properties || {};
+            const bright = p.lumen || p.power || p.brightness || p.intensity || 1;
+            // normalize to a sane intensity range (0..1)
+            const w = Math.min(1, Math.log10(Math.max(1, Number(bright))) / 4 + 0.15);
+            pts.push([lat, lon, w]);
+          }
+        }
+        if (heatLayer) { map.removeLayer(heatLayer); heatLayer = null; }
+        if (pts.length) {
+          heatLayer = L.heatLayer(pts, {
+            radius: 22,    // px
+            blur: 18,
+            maxZoom: 18
+          }).addTo(map);
+        }
+      } catch (e) {
+        console.error('Heat error', e);
+      }
+    }
+
+    document.getElementById('heatToggle').addEventListener('change', fetchHeat);
+    map.on('moveend', () =&gt; { if (document.getElementById('heatToggle').checked) fetchHeat(); });
+    // ============ end heatmap ============
+
+    // Initial sync: keep Heatmap in the same state as Show lighting
+    (function(){
+      const lt = document.getElementById('lightingToggle');
+      const ht = document.getElementById('heatToggle');
+      if (lt &amp;&amp; ht) { ht.disabled = true;
+        ht.checked = lt.checked;
+        if (lt.checked) { fetchHeat(); }
+      }
+    })();
+  
+<script>
+    // Adjust to your backend location
+    const BACKEND = (location.search.includes("localhost")) 
+      ? "http://localhost:8000"
+      : "http://localhost:8000";
+
+    const map = L.map('map', { minZoom: 3, maxZoom: 19 }).setView([47.3769, 8.5417], 13); // Zurich
+    // === NASA GIBS basemap (Blue Marble) + Reference Features/Labels (roads, boundaries & names) ===
+const nasaAttribution = 'Imagery: NASA GIBS / Blue Marble & Reference layers';
+const gibsUrl = 'https://gibs-{s}.earthdata.nasa.gov/wmts/epsg3857/best/{layer}/default/{time}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.png';
+const gibsSubdomains = ['a','b','c'];
+
+// Blue Marble (natural color) base
+const gibsBlueMarble = L.tileLayer(gibsUrl, {
+  layer: 'BlueMarble_ShadedRelief',
+  time: 'current',
+  subdomains: gibsSubdomains,
+  tileSize: 256,
+  attribution: nasaAttribution,
+  maxZoom: 9
+});
+
+// Reference features (roads, boundaries) overlay
+const gibsFeatures = L.tileLayer(gibsUrl, {
+  layer: 'Reference_Features',
+  time: 'current',
+  subdomains: gibsSubdomains,
+  tileSize: 256,
+  opacity: 0.9,
+  maxZoom: 9
+});
+
+// Reference labels (place names) overlay
+const gibsLabels = L.tileLayer(gibsUrl, {
+  layer: 'Reference_Labels',
+  time: 'current',
+  subdomains: gibsSubdomains,
+  tileSize: 256,
+  opacity: 0.9,
+  maxZoom: 9
+});
+// === end NASA GIBS ===
+
+
+// === Basemap layers (no UI, used by hybrid) ===
+const nasaGroup = L.layerGroup([gibsBlueMarble, gibsFeatures, gibsLabels]);
+const osmStreets = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors',
+  maxZoom: 19
+});
+// === end basemap layers ===
+
+
+// === Hybrid zoom-based basemap switcher (NASA group at low zoom, OSM at high zoom) ===
+function applyHybridBase() {
+  const z = map.getZoom();
+  if (z >= 10) {
+    if (map.hasLayer(nasaGroup)) { map.removeLayer(nasaGroup); }
+    if (!map.hasLayer(osmStreets)) { osmStreets.addTo(map); }
+  } else {
+    if (map.hasLayer(osmStreets)) { map.removeLayer(osmStreets); }
+    if (!map.hasLayer(nasaGroup)) { nasaGroup.addTo(map); }
+  }
+}
+map.on('zoomend', applyHybridBase);
+// also enforce on map load
+map.whenReady(applyHybridBase);
+setTimeout(applyHybridBase, 0);
+// === end hybrid ===
+
+
+
+    let pickMode = null; // 'A' | 'B'
+    let fromCoord = null, toCoord = null;
+    const fromMarker = L.marker([0,0], {draggable:false});
+    
+const toMarker = L.marker([0,0], {draggable:false});
+
+// === Geocoding helpers ===
+const geocodeCache = { from: new Map(), to: new Map() };
+async function geocodeQuery(q, limit=5){
+  if(!q || q.trim().length < 3) return [];
+  const url = `${BACKEND}/geocode?q=${encodeURIComponent(q)}&limit=${limit}`;
+  try{
+    const resp = await fetch(url);
+    if(!resp.ok) return [];
+    return await resp.json();
+  }catch(e){ console.warn('geocode error', e); return []; }
+}
+function populateDatalist(which, results){
+  const dl = document.getElementById(which==='from' ? 'fromList' : 'toList');
+  dl.innerHTML = '';
+  const cache = which==='from' ? geocodeCache.from : geocodeCache.to;
+  cache.clear();
+  results.forEach(r => {
+    const opt = document.createElement('option');
+    opt.value = r.display_name;
+    dl.appendChild(opt);
+    cache.set(r.display_name, [r.lat, r.lon]);
+  });
+}
+async function handleInput(which){
+  const inp = document.getElementById(which==='from' ? 'fromInput' : 'toInput');
+  const q = inp.value;
+  const res = await geocodeQuery(q, 7);
+  populateDatalist(which, res);
+}
+function pickFromInput(which){
+  const inp = document.getElementById(which==='from' ? 'fromInput' : 'toInput');
+  const cache = which==='from' ? geocodeCache.from : geocodeCache.to;
+  const val = inp.value;
+  const coords = cache.get(val);
+  if(coords){
+    const lat = parseFloat(coords[0]); const lon = parseFloat(coords[1]);
+    if(which==='from'){ fromCoord = [lat, lon]; fromMarker.setLatLng([lat,lon]).addTo(map).bindPopup('From').openPopup(); }
+    else { toCoord = [lat, lon]; toMarker.setLatLng([lat,lon]).addTo(map).bindPopup('To').openPopup(); }
+    map.setView([lat,lon], Math.max(14, map.getZoom()));
+  }
+}
+// Bind inputs
+['fromInput','toInput'].forEach((id, idx) => {
+  const which = idx===0 ? 'from' : 'to';
+  const el = document.getElementById(id);
+  el.addEventListener('input', () => handleInput(which));
+  el.addEventListener('change', () => pickFromInput(which));
+  el.addEventListener('keydown', (e) => { if(e.key === 'Enter'){ pickFromInput(which); } });
+});
+
+    let routeLayer = null;
+    let lightingLayer = null;
+    let heatLayer = null;
+
+    document.getElementById('route').onclick = route;
+    document.getElementById('fromMap').onclick = () => startPick('from');
+    document.getElementById('toMap').onclick = () => startPick('to');
+
+    function startPick(which){
+      pickMode = which;
+    }
+
+    map.on('click', (e) => {
+      if(!pickMode) return;
+      const {lat, lng} = e.latlng;
+      if(pickMode === 'from'){
+        fromCoord = [lat, lng];
+        fromMarker.setLatLng(e.latlng).addTo(map).bindPopup('From').openPopup();
+      } else {
+        toCoord = [lat, lng];
+        toMarker.setLatLng(e.latlng).addTo(map).bindPopup('To').openPopup();
+      }
+    });
+
+    async function ping(){
+      try{
+        const res = await fetch(BACKEND + "/api/ping");
+        if(res.ok){ document.getElementById('ping').textContent = "online"; }
+        else { document.getElementById('ping').textContent = "error"; }
+      }catch(e){
+        document.getElementById('ping').textContent = "offline";
+      }
+    }
+    ping();
+
+    function setStatus(msg){
+      document.getElementById('ping').textContent = msg;
+    }
+
+    async function route(){
+      if(!fromCoord || !toCoord){
+        alert("Select both From and To (address fields or pick on map).");
+        return;
+      }
+      const mode = document.getElementById('mode').value;
+      const place = document.getElementById('place').value.trim() || null;
+      const force = document.getElementById('force').checked;
+
+      setStatus("routing...");
+      const body = {
+        origin_lat: fromCoord[0], origin_lon: fromCoord[1],
+        dest_lat: toCoord[0], dest_lon: toCoord[1],
+        place: place,
+        mode: mode,
+        force_refresh: force,
+        route_pref: document.getElementById("routePref").value
+      };
+
+      try{
+        const res = await fetch(BACKEND + "/api/route", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(body)
+        });
+        const geo = await res.json();
+        if(!res.ok){
+          alert("Error: " + (geo.detail || JSON.stringify(geo)));
+          setStatus("online");
+          return;
+        }
+        drawRoute(geo);
+        setStatus("online");
+      }catch(e){
+        alert("Request failed: " + e);
+        setStatus("offline");
+      }
+    }
+
+    function drawRoute(geo){
+      if(routeLayer) routeLayer.remove();
+      routeLayer = L.geoJSON(geo, {
+        style: { weight: 6, color: '#ff00cc', opacity: 1.0 }
+      }).addTo(map);
+      try {
+        const coords = (geo.features[0].geometry.type === "LineString")
+          ? geo.features[0].geometry.coordinates.map(([lng,lat]) => [lat,lng])
+          : geo.features[0].geometry.coordinates.flat().map(([lng,lat]) => [lat,lng]);
+        const bounds = L.latLngBounds(coords);
+        map.fitBounds(bounds, {padding:[30,30]});
+      } catch(e){}
+      // Steps & distance
+      const props = geo.features[0].properties || {};
+      document.getElementById('distance').textContent = (props.distance_m != null) ? (props.distance_m + " m") : "—";
+      const steps = props.steps || [];
+      const list = document.getElementById('steps');
+      list.innerHTML = "";
+      steps.forEach(s => {
+        const li = document.createElement('li');
+        li.textContent = `${s.street} — ${s.length_m} m`;
+        list.appendChild(li);
+      });
+    }
+  
+    // ============== Lighting overlay ==============
+    async function fetchLighting() {
+      if (!document.getElementById('lightingToggle').checked) {
+        if (lightingLayer) { map.removeLayer(lightingLayer); lightingLayer = null; }
+        return;
+      }
+      const b = map.getBounds();
+      const bbox = [b.getWest(), b.getSouth(), b.getEast(), b.getNorth()].join(',');
+      const url = `${BACKEND}/lighting?bbox=${bbox}&limit=5000`;
+      const resp = await fetch(url);
+      if (!resp.ok) {
+        console.error('Lighting fetch failed', await resp.text());
+        return;
+      }
+      const gj = await resp.json();
+      if (lightingLayer) { map.removeLayer(lightingLayer); lightingLayer = null; }
+      lightingLayer = L.geoJSON(gj, {
+        pointToLayer: (feature, latlng) => {
+          const p = feature.properties || {};
+          const bright = p.lumen || p.power || p.brightness || p.intensity || 1;
+          const r = 2 + Math.min(8, Math.log10(Math.max(1, bright)) + 2);
+          return L.circleMarker(latlng, { radius: r, stroke: true, weight: 0.5, opacity: 0.9, color: '#FFC107', fillColor: '#FFD54F', fillOpacity: 0.35, bubblingMouseEvents: false });
+        },
+        style: (feature) => ({ weight: 2, opacity: 0.8 }),
+        onEachFeature: (feature, layer) => {
+          const props = feature.properties || {};
+          const rows = Object.entries(props).slice(0, 20).map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("");
+          layer.bindPopup(`<b>Street light</b><table>${rows}</table>`);
+        }
+      }).addTo(map);
+    }
+
+    document.getElementById('lightingToggle').addEventListener('change', (e) => {
+      const heatCb = document.getElementById('heatToggle');
+      if (heatCb) { heatCb.disabled = true;
+        heatCb.checked = e.target.checked;
+        fetchHeat();
+      }
+      fetchLighting();
+    });
+map.on('moveend', () => { if (document.getElementById('lightingToggle').checked) fetchLighting(); });
+
+    // ============ end lighting ============
+    
+  
+    // ============== Heatmap (lighting-based) ==============
+    async function fetchHeat() {
+      const cb = document.getElementById('heatToggle');
+      if (!cb || !cb.checked) {
+        if (heatLayer) { map.removeLayer(heatLayer); heatLayer = null; }
+        return;
+      }
+      const b = map.getBounds();
+      const bbox = [b.getWest(), b.getSouth(), b.getEast(), b.getNorth()].join(',');
+      try {
+        const resp = await fetch(`${BACKEND}/lighting?bbox=${bbox}&limit=10000`);
+        if (!resp.ok) {
+          console.error('Heat fetch failed', await resp.text());
+          return;
+        }
+        const gj = await resp.json();
+        // Convert to [[lat, lon, intensity], ...]
+        const pts = [];
+        for (const f of gj.features || []) {
+          const g = f.geometry || {};
+          if (g.type === 'Point' && Array.isArray(g.coordinates)) {
+            const lon = g.coordinates[0], lat = g.coordinates[1];
+            const p = f.properties || {};
+            const bright = p.lumen || p.power || p.brightness || p.intensity || 1;
+            // normalize to a sane intensity range (0..1)
+            const w = Math.min(1, Math.log10(Math.max(1, Number(bright))) / 4 + 0.15);
+            pts.push([lat, lon, w]);
+          }
+        }
+        if (heatLayer) { map.removeLayer(heatLayer); heatLayer = null; }
+        if (pts.length) {
+          heatLayer = L.heatLayer(pts, {
+            radius: 22,    // px
+            blur: 18,
+            maxZoom: 18
+          }).addTo(map);
+        }
+      } catch (e) {
+        console.error('Heat error', e);
+      }
+    }
+
+    document.getElementById('heatToggle').addEventListener('change', fetchHeat);
+    map.on('moveend', () => { if (document.getElementById('heatToggle').checked) fetchHeat(); });
+    // ============ end heatmap ============
+
+    // Initial sync: keep Heatmap in the same state as Show lighting
+    (function(){
+      const lt = document.getElementById('lightingToggle');
+      const ht = document.getElementById('heatToggle');
+      if (lt && ht) { ht.disabled = true;
+        ht.checked = lt.checked;
+        if (lt.checked) { fetchHeat(); }
+      }
+    })();
+  </script><script>
+    let pedestriansLayer = null;
+    let pedestriansData = null;
+    let pedMin = 0, pedMax = 1;
+
+    function computePedRange(gj){
+      let minV = Infinity, maxV = -Infinity;
+      (gj.features || []).forEach(f => {
+        const v = Number(f?.properties?.safety_score);
+        if(Number.isFinite(v)){
+          if(v < minV) minV = v;
+          if(v > maxV) maxV = v;
+        }
+      });
+      if(!Number.isFinite(minV) || !Number.isFinite(maxV) || minV === maxV){
+        minV = 0; maxV = 1;
+      }
+      pedMin = minV; pedMax = maxV;
+    }
+
+    async function loadPedestriansOnce(){
+      try{
+        if(pedestriansData) return pedestriansData;
+        // Try embedded first
+        const embed = document.getElementById('pedestriansData');
+        if(embed && embed.textContent){
+          pedestriansData = JSON.parse(embed.textContent);
+          computePedRange(pedestriansData);
+          return pedestriansData;
+        }
+        // Fallback to relative file (requires serving via HTTP)
+        const resp = await fetch('./pedestrians.geojson');
+        if(!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const gj = await resp.json();
+        computePedRange(gj);
+        pedestriansData = gj;
+        return gj;
+      }catch(e){
+        console.error('Pedestrians load error', e);
+        return null;
+      }
+    }
+
+    function normalizeSafety(v){
+      if(!Number.isFinite(v)) return 0;
+      if(pedMax === pedMin) return 0;
+      const n = (v - pedMin) / (pedMax - pedMin);
+      return Math.max(0, Math.min(1, n));
+    }
+
+    function renderPedestrians(){
+      if(pedestriansLayer){ pedestriansLayer.remove(); pedestriansLayer = null; }
+      if(!pedestriansData) return;
+      const b = map.getBounds();
+      pedestriansLayer = L.geoJSON(pedestriansData, {
+        pointToLayer: (feature, latlng) => {
+          const s = Number(feature?.properties?.safety_score);
+          const n = normalizeSafety(s);
+          const r = 4 + Math.round(6 * n);
+          return L.circleMarker(latlng, {
+            radius: r,
+            stroke: false,
+            color: '#000000',
+            fillColor: '#000000',
+            fillOpacity: 0.15 + 0.8 * n,
+            bubblingMouseEvents: false
+          });
+        },
+        filter: (feature) => {
+          try{
+            const c = feature.geometry.coordinates;
+            const lat = c[1], lng = c[0];
+            return b.contains([lat, lng]);
+          }catch(_){ return false; }
+        },
+        onEachFeature: (feature, layer) => {
+          const p = feature.properties || {};
+          const s = p.safety_score;
+          layer.bindTooltip(`safety_score: ${s}`, {sticky:true});
+        },
+      }).addTo(map);
+    }
+
+    async function togglePedestrians(enabled){
+      if(!enabled){
+        if(pedestriansLayer){ pedestriansLayer.remove(); pedestriansLayer = null; }
+        return;
+      }
+      await loadPedestriansOnce();
+      renderPedestrians();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const pedChk = document.getElementById('pedToggle');
+      if(pedChk){
+        pedChk.addEventListener('change', (e) => togglePedestrians(e.target.checked));
+      }
+    });
+    map.on('moveend', () => {
+      const chk = document.getElementById('pedToggle');
+      if(chk && chk.checked){
+        renderPedestrians();
+      }
+    });
+</script>
+<script>
+        (function(){
+          const hidden = document.getElementById('mode');
+          const container = document.getElementById('modeButtons');
+          if (hidden && container) {
+            container.addEventListener('click', (e) => {
+              const btn = e.target.closest('button[data-mode]');
+              if (!btn) return;
+              const mode = btn.dataset.mode;
+              hidden.value = mode;
+              container.querySelectorAll('button[data-mode]').forEach(b => {
+                b.classList.toggle('active', b === btn);
+              });
+              hidden.dispatchEvent(new Event('change', { bubbles: true }));
+            });
+          }
+        })();
+    </script><script id="pedestriansData" type="application/json">{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522364809831755,47.37308221389793]},"properties":{"street":"Langstrasse","num_users":4,"safety_score":0.1}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.5227641784846,47.37275448909697]},"properties":{"street":"Langstrasse","num_users":13,"safety_score":0.19}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522095556263553,47.37339101405877]},"properties":{"street":"Langstrasse","num_users":8,"safety_score":0.21}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.52284241798188,47.37209689087128]},"properties":{"street":"Langstrasse","num_users":18,"safety_score":0.3}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522348867307565,47.37168454601284]},"properties":{"street":"Langstrasse","num_users":14,"safety_score":0.24}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522510475068373,47.372383045373894]},"properties":{"street":"Langstrasse","num_users":11,"safety_score":0.27}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522689738410524,47.3723980621017]},"properties":{"street":"Langstrasse","num_users":4,"safety_score":0.12}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.523540665780352,47.37227403976958]},"properties":{"street":"Langstrasse","num_users":5,"safety_score":0.13}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522650028938456,47.37304071535509]},"properties":{"street":"Langstrasse","num_users":11,"safety_score":0.28}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.52365942943219,47.37305162680561]},"properties":{"street":"Langstrasse","num_users":17,"safety_score":0.2}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.521974748647116,47.372592565901144]},"properties":{"street":"Langstrasse","num_users":9,"safety_score":0.22}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.523472093176105,47.37242835461403]},"properties":{"street":"Langstrasse","num_users":5,"safety_score":0.21}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.523070447025864,47.37244270806644]},"properties":{"street":"Langstrasse","num_users":13,"safety_score":0.25}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.523497205029743,47.37318030522156]},"properties":{"street":"Langstrasse","num_users":5,"safety_score":0.27}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.523103415435125,47.37244122225267]},"properties":{"street":"Langstrasse","num_users":17,"safety_score":0.27}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.521760117587558,47.37250125819092]},"properties":{"street":"Langstrasse","num_users":14,"safety_score":0.13}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522572588832261,47.37205037475389]},"properties":{"street":"Langstrasse","num_users":9,"safety_score":0.29}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522897879003603,47.3725122514737]},"properties":{"street":"Langstrasse","num_users":2,"safety_score":0.11}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.52347554267782,47.37334834966023]},"properties":{"street":"Langstrasse","num_users":6,"safety_score":0.28}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522376048848157,47.37288730752877]},"properties":{"street":"Langstrasse","num_users":20,"safety_score":0.1}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522843407647382,47.373289348683564]},"properties":{"street":"Langstrasse","num_users":8,"safety_score":0.1}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522247310595333,47.372261924524736]},"properties":{"street":"Langstrasse","num_users":16,"safety_score":0.23}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.52276598300805,47.37266259498548]},"properties":{"street":"Langstrasse","num_users":4,"safety_score":0.14}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.523321980970108,47.371633912860176]},"properties":{"street":"Langstrasse","num_users":13,"safety_score":0.13}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.523550790808976,47.37323306582426]},"properties":{"street":"Langstrasse","num_users":19,"safety_score":0.23}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.523528308186204,47.372149276547134]},"properties":{"street":"Langstrasse","num_users":2,"safety_score":0.23}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.523281099814316,47.37142666168547]},"properties":{"street":"Langstrasse","num_users":11,"safety_score":0.2}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.521730418994764,47.372509608065265]},"properties":{"street":"Langstrasse","num_users":16,"safety_score":0.22}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522234587030383,47.37264430606302]},"properties":{"street":"Langstrasse","num_users":16,"safety_score":0.1}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522891976799995,47.37290210397142]},"properties":{"street":"Langstrasse","num_users":10,"safety_score":0.16}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522205068415204,47.37155029157574]},"properties":{"street":"Langstrasse","num_users":14,"safety_score":0.28}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.521992300432276,47.37333189488063]},"properties":{"street":"Langstrasse","num_users":8,"safety_score":0.26}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.52280117806243,47.37317717065262]},"properties":{"street":"Langstrasse","num_users":20,"safety_score":0.11}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522035665181132,47.37326291958417]},"properties":{"street":"Langstrasse","num_users":8,"safety_score":0.3}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.5225966138839,47.37168763458156]},"properties":{"street":"Langstrasse","num_users":15,"safety_score":0.15}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.523487952062878,47.37166729013837]},"properties":{"street":"Langstrasse","num_users":14,"safety_score":0.15}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522828517904415,47.37322388400933]},"properties":{"street":"Langstrasse","num_users":7,"safety_score":0.2}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.52220223313223,47.37339383320156]},"properties":{"street":"Langstrasse","num_users":1,"safety_score":0.21}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.523602658717419,47.37257008631429]},"properties":{"street":"Langstrasse","num_users":12,"safety_score":0.28}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.521755518327115,47.37147057870124]},"properties":{"street":"Langstrasse","num_users":16,"safety_score":0.28}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.523688144937148,47.37230359974859]},"properties":{"street":"Langstrasse","num_users":4,"safety_score":0.17}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522258849519867,47.37289541538967]},"properties":{"street":"Langstrasse","num_users":11,"safety_score":0.26}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.523479572790482,47.3726621335653]},"properties":{"street":"Langstrasse","num_users":15,"safety_score":0.2}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.52330896680825,47.37184939552334]},"properties":{"street":"Langstrasse","num_users":1,"safety_score":0.11}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.52330514114995,47.37160573820643]},"properties":{"street":"Langstrasse","num_users":16,"safety_score":0.23}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522963712246847,47.37329583155374]},"properties":{"street":"Langstrasse","num_users":20,"safety_score":0.14}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.521979556375545,47.373150999550845]},"properties":{"street":"Langstrasse","num_users":10,"safety_score":0.23}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.521945642033817,47.37272970296538]},"properties":{"street":"Langstrasse","num_users":12,"safety_score":0.23}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522498118853571,47.372985930001065]},"properties":{"street":"Langstrasse","num_users":11,"safety_score":0.18}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.522444550539351,47.37338797089793]},"properties":{"street":"Langstrasse","num_users":13,"safety_score":0.28}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.536795186997086,47.37321383485545]},"properties":{"street":"Bahnhofstrasse","num_users":12,"safety_score":0.99}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.53724985591051,47.37425465738142]},"properties":{"street":"Bahnhofstrasse","num_users":16,"safety_score":0.81}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.53827896312503,47.373070058886185]},"properties":{"street":"Bahnhofstrasse","num_users":17,"safety_score":0.86}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.537339541499458,47.373371365461445]},"properties":{"street":"Bahnhofstrasse","num_users":6,"safety_score":0.86}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.537800993791109,47.373258076652206]},"properties":{"street":"Bahnhofstrasse","num_users":9,"safety_score":0.87}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.536822155503696,47.37263011365122]},"properties":{"street":"Bahnhofstrasse","num_users":14,"safety_score":0.83}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.537008242765026,47.37417044602637]},"properties":{"street":"Bahnhofstrasse","num_users":9,"safety_score":0.9}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.53654681896089,47.37428800602147]},"properties":{"street":"Bahnhofstrasse","num_users":10,"safety_score":0.92}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.537988441158996,47.37406145784093]},"properties":{"street":"Bahnhofstrasse","num_users":9,"safety_score":0.99}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.537315075642944,47.373298949461685]},"properties":{"street":"Bahnhofstrasse","num_users":8,"safety_score":0.87}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.537674160532866,47.37286089829265]},"properties":{"street":"Bahnhofstrasse","num_users":10,"safety_score":0.97}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.537981453190248,47.3742735950479]},"properties":{"street":"Bahnhofstrasse","num_users":12,"safety_score":0.97}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.538108977651145,47.37341002233902]},"properties":{"street":"Bahnhofstrasse","num_users":15,"safety_score":0.86}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.53732085113918,47.37284994958454]},"properties":{"street":"Bahnhofstrasse","num_users":5,"safety_score":0.81}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.536566912023451,47.37383084526132]},"properties":{"street":"Bahnhofstrasse","num_users":4,"safety_score":0.97}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.537655227317048,47.37264831724121]},"properties":{"street":"Bahnhofstrasse","num_users":15,"safety_score":0.91}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.536633563884532,47.37255303721856]},"properties":{"street":"Bahnhofstrasse","num_users":16,"safety_score":0.86}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.538482212286365,47.37234750369206]},"properties":{"street":"Bahnhofstrasse","num_users":9,"safety_score":0.91}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.53664972253768,47.374250476496414]},"properties":{"street":"Bahnhofstrasse","num_users":14,"safety_score":0.95}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.536827543514782,47.373885708663394]},"properties":{"street":"Bahnhofstrasse","num_users":12,"safety_score":0.99}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.537889766624893,47.372895009582166]},"properties":{"street":"Bahnhofstrasse","num_users":12,"safety_score":0.9}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.536854610920386,47.37306480110369]},"properties":{"street":"Bahnhofstrasse","num_users":10,"safety_score":0.89}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.537690936684141,47.37410639241109]},"properties":{"street":"Bahnhofstrasse","num_users":14,"safety_score":0.99}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.536790660447323,47.37337164554059]},"properties":{"street":"Bahnhofstrasse","num_users":10,"safety_score":0.95}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.536543037776257,47.372766164971175]},"properties":{"street":"Bahnhofstrasse","num_users":10,"safety_score":0.94}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.538306298893072,47.373558047265874]},"properties":{"street":"Bahnhofstrasse","num_users":4,"safety_score":0.95}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.53730143490504,47.37429078776537]},"properties":{"street":"Bahnhofstrasse","num_users":7,"safety_score":0.92}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.536807403792988,47.37260609793892]},"properties":{"street":"Bahnhofstrasse","num_users":5,"safety_score":0.85}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.536638206487554,47.37371316784591]},"properties":{"street":"Bahnhofstrasse","num_users":3,"safety_score":0.81}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.536613573604807,47.373067382579684]},"properties":{"street":"Bahnhofstrasse","num_users":14,"safety_score":0.85}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.538333792907759,47.37296579981842]},"properties":{"street":"Bahnhofstrasse","num_users":19,"safety_score":0.94}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.536737467025455,47.37284079998411]},"properties":{"street":"Bahnhofstrasse","num_users":1,"safety_score":0.83}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.536836472560603,47.3734787244556]},"properties":{"street":"Bahnhofstrasse","num_users":2,"safety_score":0.86}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.537802237076965,47.37266949684646]},"properties":{"street":"Bahnhofstrasse","num_users":4,"safety_score":0.97}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.537578433985345,47.373845162679046]},"properties":{"street":"Bahnhofstrasse","num_users":15,"safety_score":0.95}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.538369582061542,47.373456403977706]},"properties":{"street":"Bahnhofstrasse","num_users":11,"safety_score":0.91}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.536800118113822,47.374252511971]},"properties":{"street":"Bahnhofstrasse","num_users":6,"safety_score":0.9}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.537537315017024,47.374092374613284]},"properties":{"street":"Bahnhofstrasse","num_users":7,"safety_score":0.89}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.537513480776743,47.37421051738016]},"properties":{"street":"Bahnhofstrasse","num_users":11,"safety_score":0.95}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.536684952889091,47.373816539991914]},"properties":{"street":"Bahnhofstrasse","num_users":19,"safety_score":0.93}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.538090712909485,47.37375058667594]},"properties":{"street":"Bahnhofstrasse","num_users":16,"safety_score":0.87}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.538001885486976,47.374296656480475]},"properties":{"street":"Bahnhofstrasse","num_users":17,"safety_score":0.86}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.537946282905951,47.372377390534425]},"properties":{"street":"Bahnhofstrasse","num_users":4,"safety_score":0.92}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.53715047373052,47.37398460215493]},"properties":{"street":"Bahnhofstrasse","num_users":6,"safety_score":0.81}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.53761368482387,47.37321817633788]},"properties":{"street":"Bahnhofstrasse","num_users":18,"safety_score":0.88}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.537118654830728,47.373335925306215]},"properties":{"street":"Bahnhofstrasse","num_users":17,"safety_score":0.88}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.538153414870045,47.37345532253855]},"properties":{"street":"Bahnhofstrasse","num_users":12,"safety_score":0.98}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.538030350204263,47.37266359919253]},"properties":{"street":"Bahnhofstrasse","num_users":6,"safety_score":0.84}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.53687428152549,47.372396288944984]},"properties":{"street":"Bahnhofstrasse","num_users":13,"safety_score":0.86}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.536676568250916,47.37406066239554]},"properties":{"street":"Bahnhofstrasse","num_users":18,"safety_score":0.84}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527247709888673,47.374327827150786]},"properties":{"street":"Stauffacherstrasse","num_users":13,"safety_score":0.51}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527503652253277,47.373461015601954]},"properties":{"street":"Stauffacherstrasse","num_users":14,"safety_score":0.51}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.52845684977899,47.37384928255484]},"properties":{"street":"Stauffacherstrasse","num_users":6,"safety_score":0.57}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527214168141885,47.37472877175266]},"properties":{"street":"Stauffacherstrasse","num_users":17,"safety_score":0.58}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528708923127436,47.373212187512195]},"properties":{"street":"Stauffacherstrasse","num_users":7,"safety_score":0.47}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527349798579495,47.37423563987809]},"properties":{"street":"Stauffacherstrasse","num_users":18,"safety_score":0.59}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528273791616742,47.37378387240116]},"properties":{"street":"Stauffacherstrasse","num_users":4,"safety_score":0.55}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528328560147061,47.3740506866722]},"properties":{"street":"Stauffacherstrasse","num_users":18,"safety_score":0.46}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527523827364426,47.37432367908364]},"properties":{"street":"Stauffacherstrasse","num_users":19,"safety_score":0.53}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527320179698213,47.373548661214734]},"properties":{"street":"Stauffacherstrasse","num_users":3,"safety_score":0.5}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527999627749342,47.373755761553774]},"properties":{"street":"Stauffacherstrasse","num_users":14,"safety_score":0.42}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527804362213507,47.374432317925475]},"properties":{"street":"Stauffacherstrasse","num_users":8,"safety_score":0.58}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.52739355404355,47.374576449496146]},"properties":{"street":"Stauffacherstrasse","num_users":3,"safety_score":0.47}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528084272073741,47.375137184295816]},"properties":{"street":"Stauffacherstrasse","num_users":14,"safety_score":0.54}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527721181327722,47.375153991294496]},"properties":{"street":"Stauffacherstrasse","num_users":9,"safety_score":0.57}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.52748169439233,47.37475386427672]},"properties":{"street":"Stauffacherstrasse","num_users":15,"safety_score":0.5}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527189179282924,47.3745496729592]},"properties":{"street":"Stauffacherstrasse","num_users":7,"safety_score":0.58}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527679082239008,47.37381146188497]},"properties":{"street":"Stauffacherstrasse","num_users":4,"safety_score":0.59}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527698283014066,47.373961759786454]},"properties":{"street":"Stauffacherstrasse","num_users":17,"safety_score":0.49}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528101755558684,47.37470646744385]},"properties":{"street":"Stauffacherstrasse","num_users":3,"safety_score":0.43}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527476735456913,47.37479377450758]},"properties":{"street":"Stauffacherstrasse","num_users":2,"safety_score":0.54}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528673917918061,47.37345317305335]},"properties":{"street":"Stauffacherstrasse","num_users":17,"safety_score":0.57}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528667515764495,47.373318966306826]},"properties":{"street":"Stauffacherstrasse","num_users":18,"safety_score":0.49}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527414175034853,47.374062767936955]},"properties":{"street":"Stauffacherstrasse","num_users":14,"safety_score":0.58}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.52748117091613,47.37341789870515]},"properties":{"street":"Stauffacherstrasse","num_users":4,"safety_score":0.49}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528545982502552,47.373986716856436]},"properties":{"street":"Stauffacherstrasse","num_users":9,"safety_score":0.48}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528500724927094,47.37451217230516]},"properties":{"street":"Stauffacherstrasse","num_users":15,"safety_score":0.51}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.52774688621199,47.37443707572449]},"properties":{"street":"Stauffacherstrasse","num_users":15,"safety_score":0.48}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528713770596754,47.37471537089738]},"properties":{"street":"Stauffacherstrasse","num_users":10,"safety_score":0.6}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528248703623534,47.375127424126994]},"properties":{"street":"Stauffacherstrasse","num_users":9,"safety_score":0.56}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527591462243498,47.37333253814801]},"properties":{"street":"Stauffacherstrasse","num_users":11,"safety_score":0.59}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528123084943688,47.37321170522748]},"properties":{"street":"Stauffacherstrasse","num_users":3,"safety_score":0.47}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.52758939054232,47.37381333090588]},"properties":{"street":"Stauffacherstrasse","num_users":7,"safety_score":0.57}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528205439046154,47.37400847970411]},"properties":{"street":"Stauffacherstrasse","num_users":13,"safety_score":0.45}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.52725133923171,47.374122651026155]},"properties":{"street":"Stauffacherstrasse","num_users":13,"safety_score":0.49}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528632948538082,47.375026758484616]},"properties":{"street":"Stauffacherstrasse","num_users":4,"safety_score":0.43}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528356484035235,47.3748703994223]},"properties":{"street":"Stauffacherstrasse","num_users":16,"safety_score":0.4}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528406404599655,47.37472083689169]},"properties":{"street":"Stauffacherstrasse","num_users":19,"safety_score":0.54}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527316504164283,47.37432328810116]},"properties":{"street":"Stauffacherstrasse","num_users":20,"safety_score":0.45}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527637486670994,47.37458889033688]},"properties":{"street":"Stauffacherstrasse","num_users":3,"safety_score":0.58}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.52723677516227,47.374176161024934]},"properties":{"street":"Stauffacherstrasse","num_users":16,"safety_score":0.46}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527494192836313,47.3745669726357]},"properties":{"street":"Stauffacherstrasse","num_users":19,"safety_score":0.44}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527381847136809,47.37423860819799]},"properties":{"street":"Stauffacherstrasse","num_users":12,"safety_score":0.57}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527377823127164,47.3747051203213]},"properties":{"street":"Stauffacherstrasse","num_users":9,"safety_score":0.6}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528978236143308,47.37371700500456]},"properties":{"street":"Stauffacherstrasse","num_users":4,"safety_score":0.56}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.528341110157678,47.37449594067659]},"properties":{"street":"Stauffacherstrasse","num_users":3,"safety_score":0.47}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527869304915967,47.37397564770575]},"properties":{"street":"Stauffacherstrasse","num_users":13,"safety_score":0.52}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.52890384396926,47.373387317469714]},"properties":{"street":"Stauffacherstrasse","num_users":14,"safety_score":0.54}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527023475795131,47.373395332411555]},"properties":{"street":"Stauffacherstrasse","num_users":2,"safety_score":0.6}},{"type":"Feature","geometry":{"type":"Point","coordinates":[8.527028839456767,47.37437526069299]},"properties":{"street":"Stauffacherstrasse","num_users":5,"safety_score":0.51}}]}</script><button id="markUnsafeBtn" class="float-bottom-btn" title="Add unsafe points with score=1">Mark unsafe here</button>
+<script>
+
+    // ---- Manual UNSAFE points (score=1) ----
+    let addingUnsafe = false;
+    let manualDanger = []; // array of [lat, lon, score=1]
+    let pedManualLayer = null;
+
+    function renderManualPedestrians(){
+      if(pedManualLayer){ pedManualLayer.remove(); pedManualLayer = null; }
+      if(!manualDanger.length) return;
+      const fc = {
+        type: "FeatureCollection",
+        features: manualDanger.map(([lat, lon, score]) => ({
+          type: "Feature",
+          properties: { safety_score: score },
+          geometry: { type: "Point", coordinates: [lon, lat] }
+        }))
+      };
+      pedManualLayer = L.geoJSON(fc, {
+        pointToLayer: (feature, latlng) => {
+          const n = 1.0; // score=1 -> max
+          const r = 4 + Math.round(6 * n);
+          return L.circleMarker(latlng, {
+            radius: r,
+            stroke: false,
+            color: '#000000',
+            fillColor: '#000000',
+            fillOpacity: 0.95,  // nearly opaque for score=1
+            bubblingMouseEvents: false
+          });
+        }
+      }).addTo(map);
+    }
+
+    // Toggle button
+    const markBtn = document.getElementById('markUnsafeBtn');
+    if(markBtn){
+      markBtn.addEventListener('click', () => {
+        addingUnsafe = !addingUnsafe;
+        markBtn.classList.toggle('active', addingUnsafe);
+        // if pedestrians layer is off, enable it so user sees points
+        const pedChk = document.getElementById('pedToggle');
+        if(pedChk && !pedChk.checked){
+          pedChk.checked = true;
+          togglePedestrians(true);
+        }
+      });
+    }
+
+    // Add point on map click (doesn't interfere with From/To pick)
+    map.on('click', (e) => {
+      if(!addingUnsafe) return;
+      const { lat, lng } = e.latlng;
+      manualDanger.push([lat, lng, 1.0]);
+      renderManualPedestrians();
+    });
+
+    // Include manual points in route body
+    const _origRouteFn = route;
+    route = async function(){
+      // Build as usual but inject extra_danger before request
+      if(!fromCoord || !toCoord){
+        return _origRouteFn.apply(this, arguments);
+      }
+      const mode = document.getElementById('mode').value;
+      const place = document.getElementById('place').value.trim() || null;
+      const force = document.getElementById('force').checked;
+      setStatus("routing...");
+      const body = {
+        origin_lat: fromCoord[0], origin_lon: fromCoord[1],
+        dest_lat: toCoord[0], dest_lon: toCoord[1],
+        place: place,
+        mode: mode,
+        force_refresh: force,
+        route_pref: document.getElementById("routePref").value,
+        extra_danger: manualDanger.map(([lat, lon, score]) => ({ lat, lon, score }))
+      };
+      try{
+        const res = await fetch(BACKEND + "/api/route", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(body)
+        });
+        const geo = await res.json();
+        if(!res.ok) throw new Error(JSON.stringify(geo));
+        drawRoute(geo);
+        setStatus("ok");
+        // keep steps/distance handling intact (uses drawRoute's code)
+      }catch(e){
+        console.error('Route error', e);
+        setStatus("route error");
+        alert("Routing failed: " + e);
+      }
+    }
+    // ---- end manual UNSAFE ----
+
+</script>
+
+<!-- === Emergency Quick-Access Bar (added by ChatGPT on 2025-10-05T12:24:45Z) === -->
+<style>
+  .emergency-bar{
+    position:fixed;left:0;right:0;bottom:0;z-index:9999;
+    display:flex;gap:.5rem;justify-content:space-between;align-items:center;
+    padding:.65rem .75rem;
+    backdrop-filter:saturate(140%) blur(6px);
+    background: rgba(24,24,28,.72);
+    border-top: 1px solid rgba(255,255,255,.15);
+  }
+  .emergency-btn{
+    flex:1 1 0; font-weight:700; letter-spacing:.2px;
+    padding:.8rem 1rem; border:none; border-radius:14px;
+    color:#fff; cursor:pointer; outline:none;
+    box-shadow: inset 4px 4px 10px rgba(0,0,0,.35),
+                inset -4px -4px 12px rgba(255,255,255,.12),
+                0 6px 16px rgba(0,0,0,.35);
+    transition: transform .06s ease, box-shadow .2s ease;
+  }
+  .emergency-btn:active{ transform: translateY(1px); }
+  .btn-sos{ background: linear-gradient(180deg, #ff3b3b 0%, #c91e1e 100%); }
+  .btn-alert{ background: linear-gradient(180deg, #ffb300 0%, #d98200 100%); }
+  .btn-comfort{ background: linear-gradient(180deg, #3b82f6 0%, #1e40af 100%); }
+  @media (max-width: 520px){
+    .emergency-btn{ padding:.9rem .6rem; font-size:.92rem; }
+  }
+  /* Ensure page content isn't hidden behind bar */
+  body{ padding-bottom: calc(64px + 1.2rem); }
+</style>
+<div class="emergency-bar" role="group" aria-label="Emergency actions">
+  <button class="emergency-btn btn-sos" id="btn-sos" title="Call 112">SOS</button>
+  <button class="emergency-btn btn-alert" id="btn-alert" title="Email family with your location">Alert family</button>
+  <button class="emergency-btn btn-comfort" id="btn-comfort" title="Call a trusted contact">Comfort call</button>
+</div>
+<script>
+(function(){
+  // Try to get coordinates from Leaflet map or browser geolocation
+  async function getCoords(){
+    try{
+      if (window.map && typeof window.map.getCenter === 'function'){
+        var c = window.map.getCenter();
+        if (c && typeof c.lat === 'number' && typeof c.lng === 'number'){
+          return { lat: c.lat, lng: c.lng, source: 'map' };
+        }
+      }
+    }catch(e){/* ignore */}
+    // Fallback to geolocation (permission-based)
+    if (navigator.geolocation){
+      try{
+        const pos = await new Promise(function(resolve, reject){
+          navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy:true, timeout:5000, maximumAge:15000 });
+        });
+        return { lat: pos.coords.latitude, lng: pos.coords.longitude, source: 'geo' };
+      }catch(e){/* ignore */}
+    }
+    // Unknown
+    return null;
+  }
+
+  function encodeQuery(s){ return encodeURIComponent(s); }
+
+  async function buildEmailLink(){
+    const coords = await getCoords();
+    const when = new Date().toISOString();
+    let subject = "Emergency Alert";
+    let body = "Help me please.";
+    if (coords){
+      body += "\n\nMy location:" +
+              "\nLatitude: " + coords.lat.toFixed(6) +
+              "\nLongitude: " + coords.lng.toFixed(6) +
+              "\nSource: " + coords.source +
+              "\nTime (UTC): " + when +
+              "\n\nMap link: https://www.openstreetmap.org/?mlat=" + coords.lat + "&mlon=" + coords.lng + "#map=16/" + coords.lat + "/" + coords.lng;
+    } else {
+      body += "\n\nLocation: unavailable (permissions or signal).";
+    }
+    return "mailto:?subject=" + encodeQuery(subject) + "&body=" + encodeQuery(body);
+  }
+
+  // Wire up buttons
+  document.getElementById('btn-sos').addEventListener('click', function(){
+    window.location.href = "tel:112";
+  });
+
+  document.getElementById('btn-comfort').addEventListener('click', function(){
+    window.location.href = "tel:+79290467295";
+  });
+
+  document.getElementById('btn-alert').addEventListener('click', async function(){
+    const link = await buildEmailLink();
+    window.location.href = link;
+  });
+})();
+</script>
+<!-- === End Emergency Quick-Access Bar === -->
+</body></html>

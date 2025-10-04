@@ -1,0 +1,2255 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522364809831755,
+          47.37308221389793
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 4,
+        "safety_score": 0.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.5227641784846,
+          47.37275448909697
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 13,
+        "safety_score": 0.19
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522095556263553,
+          47.37339101405877
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 8,
+        "safety_score": 0.21
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.52284241798188,
+          47.37209689087128
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 18,
+        "safety_score": 0.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522348867307565,
+          47.37168454601284
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 14,
+        "safety_score": 0.24
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522510475068373,
+          47.372383045373894
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 11,
+        "safety_score": 0.27
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522689738410524,
+          47.3723980621017
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 4,
+        "safety_score": 0.12
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.523540665780352,
+          47.37227403976958
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 5,
+        "safety_score": 0.13
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522650028938456,
+          47.37304071535509
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 11,
+        "safety_score": 0.28
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.52365942943219,
+          47.37305162680561
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 17,
+        "safety_score": 0.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.521974748647116,
+          47.372592565901144
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 9,
+        "safety_score": 0.22
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.523472093176105,
+          47.37242835461403
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 5,
+        "safety_score": 0.21
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.523070447025864,
+          47.37244270806644
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 13,
+        "safety_score": 0.25
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.523497205029743,
+          47.37318030522156
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 5,
+        "safety_score": 0.27
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.523103415435125,
+          47.37244122225267
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 17,
+        "safety_score": 0.27
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.521760117587558,
+          47.37250125819092
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 14,
+        "safety_score": 0.13
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522572588832261,
+          47.37205037475389
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 9,
+        "safety_score": 0.29
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522897879003603,
+          47.3725122514737
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 2,
+        "safety_score": 0.11
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.52347554267782,
+          47.37334834966023
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 6,
+        "safety_score": 0.28
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522376048848157,
+          47.37288730752877
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 20,
+        "safety_score": 0.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522843407647382,
+          47.373289348683564
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 8,
+        "safety_score": 0.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522247310595333,
+          47.372261924524736
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 16,
+        "safety_score": 0.23
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.52276598300805,
+          47.37266259498548
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 4,
+        "safety_score": 0.14
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.523321980970108,
+          47.371633912860176
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 13,
+        "safety_score": 0.13
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.523550790808976,
+          47.37323306582426
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 19,
+        "safety_score": 0.23
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.523528308186204,
+          47.372149276547134
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 2,
+        "safety_score": 0.23
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.523281099814316,
+          47.37142666168547
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 11,
+        "safety_score": 0.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.521730418994764,
+          47.372509608065265
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 16,
+        "safety_score": 0.22
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522234587030383,
+          47.37264430606302
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 16,
+        "safety_score": 0.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522891976799995,
+          47.37290210397142
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 10,
+        "safety_score": 0.16
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522205068415204,
+          47.37155029157574
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 14,
+        "safety_score": 0.28
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.521992300432276,
+          47.37333189488063
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 8,
+        "safety_score": 0.26
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.52280117806243,
+          47.37317717065262
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 20,
+        "safety_score": 0.11
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522035665181132,
+          47.37326291958417
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 8,
+        "safety_score": 0.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.5225966138839,
+          47.37168763458156
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 15,
+        "safety_score": 0.15
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.523487952062878,
+          47.37166729013837
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 14,
+        "safety_score": 0.15
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522828517904415,
+          47.37322388400933
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 7,
+        "safety_score": 0.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.52220223313223,
+          47.37339383320156
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 1,
+        "safety_score": 0.21
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.523602658717419,
+          47.37257008631429
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 12,
+        "safety_score": 0.28
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.521755518327115,
+          47.37147057870124
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 16,
+        "safety_score": 0.28
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.523688144937148,
+          47.37230359974859
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 4,
+        "safety_score": 0.17
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522258849519867,
+          47.37289541538967
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 11,
+        "safety_score": 0.26
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.523479572790482,
+          47.3726621335653
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 15,
+        "safety_score": 0.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.52330896680825,
+          47.37184939552334
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 1,
+        "safety_score": 0.11
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.52330514114995,
+          47.37160573820643
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 16,
+        "safety_score": 0.23
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522963712246847,
+          47.37329583155374
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 20,
+        "safety_score": 0.14
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.521979556375545,
+          47.373150999550845
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 10,
+        "safety_score": 0.23
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.521945642033817,
+          47.37272970296538
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 12,
+        "safety_score": 0.23
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522498118853571,
+          47.372985930001065
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 11,
+        "safety_score": 0.18
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.522444550539351,
+          47.37338797089793
+        ]
+      },
+      "properties": {
+        "street": "Langstrasse",
+        "num_users": 13,
+        "safety_score": 0.28
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.536795186997086,
+          47.37321383485545
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 12,
+        "safety_score": 0.99
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.53724985591051,
+          47.37425465738142
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 16,
+        "safety_score": 0.81
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.53827896312503,
+          47.373070058886185
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 17,
+        "safety_score": 0.86
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.537339541499458,
+          47.373371365461445
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 6,
+        "safety_score": 0.86
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.537800993791109,
+          47.373258076652206
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 9,
+        "safety_score": 0.87
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.536822155503696,
+          47.37263011365122
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 14,
+        "safety_score": 0.83
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.537008242765026,
+          47.37417044602637
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 9,
+        "safety_score": 0.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.53654681896089,
+          47.37428800602147
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 10,
+        "safety_score": 0.92
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.537988441158996,
+          47.37406145784093
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 9,
+        "safety_score": 0.99
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.537315075642944,
+          47.373298949461685
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 8,
+        "safety_score": 0.87
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.537674160532866,
+          47.37286089829265
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 10,
+        "safety_score": 0.97
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.537981453190248,
+          47.3742735950479
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 12,
+        "safety_score": 0.97
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.538108977651145,
+          47.37341002233902
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 15,
+        "safety_score": 0.86
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.53732085113918,
+          47.37284994958454
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 5,
+        "safety_score": 0.81
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.536566912023451,
+          47.37383084526132
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 4,
+        "safety_score": 0.97
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.537655227317048,
+          47.37264831724121
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 15,
+        "safety_score": 0.91
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.536633563884532,
+          47.37255303721856
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 16,
+        "safety_score": 0.86
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.538482212286365,
+          47.37234750369206
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 9,
+        "safety_score": 0.91
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.53664972253768,
+          47.374250476496414
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 14,
+        "safety_score": 0.95
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.536827543514782,
+          47.373885708663394
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 12,
+        "safety_score": 0.99
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.537889766624893,
+          47.372895009582166
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 12,
+        "safety_score": 0.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.536854610920386,
+          47.37306480110369
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 10,
+        "safety_score": 0.89
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.537690936684141,
+          47.37410639241109
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 14,
+        "safety_score": 0.99
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.536790660447323,
+          47.37337164554059
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 10,
+        "safety_score": 0.95
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.536543037776257,
+          47.372766164971175
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 10,
+        "safety_score": 0.94
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.538306298893072,
+          47.373558047265874
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 4,
+        "safety_score": 0.95
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.53730143490504,
+          47.37429078776537
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 7,
+        "safety_score": 0.92
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.536807403792988,
+          47.37260609793892
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 5,
+        "safety_score": 0.85
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.536638206487554,
+          47.37371316784591
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 3,
+        "safety_score": 0.81
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.536613573604807,
+          47.373067382579684
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 14,
+        "safety_score": 0.85
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.538333792907759,
+          47.37296579981842
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 19,
+        "safety_score": 0.94
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.536737467025455,
+          47.37284079998411
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 1,
+        "safety_score": 0.83
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.536836472560603,
+          47.3734787244556
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 2,
+        "safety_score": 0.86
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.537802237076965,
+          47.37266949684646
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 4,
+        "safety_score": 0.97
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.537578433985345,
+          47.373845162679046
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 15,
+        "safety_score": 0.95
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.538369582061542,
+          47.373456403977706
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 11,
+        "safety_score": 0.91
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.536800118113822,
+          47.374252511971
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 6,
+        "safety_score": 0.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.537537315017024,
+          47.374092374613284
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 7,
+        "safety_score": 0.89
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.537513480776743,
+          47.37421051738016
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 11,
+        "safety_score": 0.95
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.536684952889091,
+          47.373816539991914
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 19,
+        "safety_score": 0.93
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.538090712909485,
+          47.37375058667594
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 16,
+        "safety_score": 0.87
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.538001885486976,
+          47.374296656480475
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 17,
+        "safety_score": 0.86
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.537946282905951,
+          47.372377390534425
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 4,
+        "safety_score": 0.92
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.53715047373052,
+          47.37398460215493
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 6,
+        "safety_score": 0.81
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.53761368482387,
+          47.37321817633788
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 18,
+        "safety_score": 0.88
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.537118654830728,
+          47.373335925306215
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 17,
+        "safety_score": 0.88
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.538153414870045,
+          47.37345532253855
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 12,
+        "safety_score": 0.98
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.538030350204263,
+          47.37266359919253
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 6,
+        "safety_score": 0.84
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.53687428152549,
+          47.372396288944984
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 13,
+        "safety_score": 0.86
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.536676568250916,
+          47.37406066239554
+        ]
+      },
+      "properties": {
+        "street": "Bahnhofstrasse",
+        "num_users": 18,
+        "safety_score": 0.84
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527247709888673,
+          47.374327827150786
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 13,
+        "safety_score": 0.51
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527503652253277,
+          47.373461015601954
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 14,
+        "safety_score": 0.51
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.52845684977899,
+          47.37384928255484
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 6,
+        "safety_score": 0.57
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527214168141885,
+          47.37472877175266
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 17,
+        "safety_score": 0.58
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528708923127436,
+          47.373212187512195
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 7,
+        "safety_score": 0.47
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527349798579495,
+          47.37423563987809
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 18,
+        "safety_score": 0.59
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528273791616742,
+          47.37378387240116
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 4,
+        "safety_score": 0.55
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528328560147061,
+          47.3740506866722
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 18,
+        "safety_score": 0.46
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527523827364426,
+          47.37432367908364
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 19,
+        "safety_score": 0.53
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527320179698213,
+          47.373548661214734
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 3,
+        "safety_score": 0.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527999627749342,
+          47.373755761553774
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 14,
+        "safety_score": 0.42
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527804362213507,
+          47.374432317925475
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 8,
+        "safety_score": 0.58
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.52739355404355,
+          47.374576449496146
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 3,
+        "safety_score": 0.47
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528084272073741,
+          47.375137184295816
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 14,
+        "safety_score": 0.54
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527721181327722,
+          47.375153991294496
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 9,
+        "safety_score": 0.57
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.52748169439233,
+          47.37475386427672
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 15,
+        "safety_score": 0.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527189179282924,
+          47.3745496729592
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 7,
+        "safety_score": 0.58
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527679082239008,
+          47.37381146188497
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 4,
+        "safety_score": 0.59
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527698283014066,
+          47.373961759786454
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 17,
+        "safety_score": 0.49
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528101755558684,
+          47.37470646744385
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 3,
+        "safety_score": 0.43
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527476735456913,
+          47.37479377450758
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 2,
+        "safety_score": 0.54
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528673917918061,
+          47.37345317305335
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 17,
+        "safety_score": 0.57
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528667515764495,
+          47.373318966306826
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 18,
+        "safety_score": 0.49
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527414175034853,
+          47.374062767936955
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 14,
+        "safety_score": 0.58
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.52748117091613,
+          47.37341789870515
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 4,
+        "safety_score": 0.49
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528545982502552,
+          47.373986716856436
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 9,
+        "safety_score": 0.48
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528500724927094,
+          47.37451217230516
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 15,
+        "safety_score": 0.51
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.52774688621199,
+          47.37443707572449
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 15,
+        "safety_score": 0.48
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528713770596754,
+          47.37471537089738
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 10,
+        "safety_score": 0.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528248703623534,
+          47.375127424126994
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 9,
+        "safety_score": 0.56
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527591462243498,
+          47.37333253814801
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 11,
+        "safety_score": 0.59
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528123084943688,
+          47.37321170522748
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 3,
+        "safety_score": 0.47
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.52758939054232,
+          47.37381333090588
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 7,
+        "safety_score": 0.57
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528205439046154,
+          47.37400847970411
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 13,
+        "safety_score": 0.45
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.52725133923171,
+          47.374122651026155
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 13,
+        "safety_score": 0.49
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528632948538082,
+          47.375026758484616
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 4,
+        "safety_score": 0.43
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528356484035235,
+          47.3748703994223
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 16,
+        "safety_score": 0.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528406404599655,
+          47.37472083689169
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 19,
+        "safety_score": 0.54
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527316504164283,
+          47.37432328810116
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 20,
+        "safety_score": 0.45
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527637486670994,
+          47.37458889033688
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 3,
+        "safety_score": 0.58
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.52723677516227,
+          47.374176161024934
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 16,
+        "safety_score": 0.46
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527494192836313,
+          47.3745669726357
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 19,
+        "safety_score": 0.44
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527381847136809,
+          47.37423860819799
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 12,
+        "safety_score": 0.57
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527377823127164,
+          47.3747051203213
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 9,
+        "safety_score": 0.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528978236143308,
+          47.37371700500456
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 4,
+        "safety_score": 0.56
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.528341110157678,
+          47.37449594067659
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 3,
+        "safety_score": 0.47
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527869304915967,
+          47.37397564770575
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 13,
+        "safety_score": 0.52
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.52890384396926,
+          47.373387317469714
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 14,
+        "safety_score": 0.54
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527023475795131,
+          47.373395332411555
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 2,
+        "safety_score": 0.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.527028839456767,
+          47.37437526069299
+        ]
+      },
+      "properties": {
+        "street": "Stauffacherstrasse",
+        "num_users": 5,
+        "safety_score": 0.51
+      }
+    }
+  ]
+}
